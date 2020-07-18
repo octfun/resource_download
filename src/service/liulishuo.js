@@ -35,23 +35,24 @@ export function loadliulishuoPage(goku_session, authenticity_token, pwd) {
 
 export async function start() {
     try {
-        fs
         console.log(pwds[0])
-        for(var i=4232; i<=pwds.length; i++) {
+        for(var i=0; i<=0; i++) {
+            const pwd =  "Princess"
             const res = await loadliulishuoPage(
                 'dXJFMk1aaVJiRDRiUUJlUHdqNlFaNnBlMjczQnJ4d290ZTBxbGlubVRUREh6dW9uMG95Tk1wT0Q0UTV6NzY5ZnlqRSsyclVBM1QxMnhidWFUQy9hOWY3SGlvOEhqbVd0WVBNTmFlRHdDQk9iM2Q0NzI1VCtjVjg2dDlJTm91NU96cW0veC9GS0NwZlRySDJOYXYvQlNRPT0tLTZnQWxhZlNkdUpXeDF5VFlZZHB5RUE9PQ%3D%3D--5ba4c4a16d90351e860537e50b0d591c6b894cad', 
                 '7QTllbwyHLwjpFaGW5X+Wlch5/Gpww6yfK6XUgn4ECu9jJMQUeNGq9WjBf8DZJO3K8iNdmFA6e4EEK9yzbPZKg==', 
-                pwds[i]
+                pwd
             ).catch(e => console.log(e))  
             if(res) {
                 let authenticity_token = 'NULL'
                 try {
                     if (res.data.indexOf('html') > 0) {
                         const $ = cheerio.load(res.data)
-                        authenticity_token = $('input[name="authenticity_token"]').val()
+                        authenticity_token = $('input[name="access_password"]').val()
                     } else {
                         authenticity_token = ''
                     }
+                    // console.log(res.data)
                     fs.appendFile('D:/Node/resource_download/src/service/log.txt',i+ '>>>'+authenticity_token+ pwds[i] +'\r\n', (err) => {
                         if (err) throw err;
                         console.log(i, '>>>'+authenticity_token, pwds[i])

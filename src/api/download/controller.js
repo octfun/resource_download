@@ -3,6 +3,8 @@ import * as xmlaService from '../../service/ximalaya'
 
 import * as ting22Service from '../../service/ting22'
 import * as liulishuoService from '../../service/liulishuo'
+import * as ishuyinService from '../../service/ishuyin'
+
 var axios = require('axios')
 export const ttfm = (req,res,next) => {
     res.send('ttfm' + req.query);
@@ -39,4 +41,14 @@ export const liulishuo = (req,res,next) => {
 
     liulishuoService.start()
     res.send('ting22');
+}
+
+export const ishuyin = (req,res,next) => {
+    const  {
+        start = 1,
+        end = 1,
+        name = '簪中录'
+    } = req.query
+    ishuyinService.start(parseInt(start),parseInt(end),name)
+    res.send('ishuyin: 簪中录 ');
 }
