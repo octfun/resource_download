@@ -52,6 +52,50 @@ export function loadPage(url) {
     });
     return pm;
 }
+
+
+export function loadliulishuoPage(goku_session, authenticity_token, pwd) {
+    var https = require('https');
+    // var postData = `{
+    //     "utf8": "^%^E2^%^9C^%^93^",
+    //     "authenticity_token": "${authenticity_token}",
+    //     "access_password": "pwd",
+    //     "commit": "^%^E9^%^AA^%^8C^%^E8^%^AF^%^81^%^E5^%^B9^%^B6^%^E5^%^A1^%^AB^%^E5^%^86^%^99^%^E8^%^A1^%^A8^%^E5^%^8D^%^95"
+    //   }`;
+    var postData = `utf8=^%^E2^%^9C^%^93^&authenticity_token=${authenticity_token}&access_password=112345&commit=^%^E9^%^AA^%^8C^%^E8^%^AF^%^81^%^E5^%^B9^%^B6^%^E5^%^A1^%^AB^%^E5^%^86^%^99^%^E8^%^A1^%^A8^%^E5^%^8D^%^95`
+    var settings = {
+        // url: "https://forms.liulishuo.work/f/dcdzMX/access_password_verify",
+        hostname:'forms.liulishuo.work',
+        path:'/f/dcdzMX/access_password_verify',
+        method: "post",
+        headers: {
+          "Cookie": `goku_session=${goku_session}; Hm_lvt_44cbe0310f7f2c315fc22c59e6496914=1594991810; Hm_lpvt_44cbe0310f7f2c315fc22c59e6496914=15949918101`,
+          "authority": "forms.liulishuo.work",
+          "content-type": "application/x-www-form-urlencoded",
+          'Content-Length': Buffer.byteLength(postData),
+          connection: 'keep-alive',
+        }
+    };
+    var pm = new Promise(function (resolve, reject) {
+        var req = https.request(settings, function (res) {
+            console.log('状态码:', res.statusCode);
+            console.log('请求头:', res.headers);
+            var html = '';
+            res.on('data', function (d) {
+                html += d.toString()
+            });
+            res.on('end', function () {
+                resolve(html);
+            });
+        }).on('error', function (e) {
+         reject(e)
+        });
+        req.write(postData);
+        req.end();
+    });
+    return pm;
+}
+
 export function download(uri, filename, callback){
     var pm = new Promise(function (resolve, reject) {
         var stream = fs.createWriteStream(filename);

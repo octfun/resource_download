@@ -7,4 +7,7 @@ router.use('/download', download)
  
 router.use('/test', test)
  
+router.use('/test2',  (req,res,next) => {
+    res.send('xmla');
+})
 export default router
